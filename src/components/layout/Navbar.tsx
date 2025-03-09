@@ -1,4 +1,3 @@
-
 import { Bell, Plus, User } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
@@ -73,46 +72,43 @@ export default function Navbar() {
         </div>
         
         <div className="flex items-center gap-2">
-          <Dialog>
-            <DialogTrigger asChild>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
               <Button variant="outline" size="icon" className="rounded-full">
                 <Plus className="h-4 w-4" />
                 <span className="sr-only">Add new</span>
               </Button>
-            </DialogTrigger>
-            <DialogContent className="p-0 bg-transparent border-none shadow-none max-w-md">
-              <div className="grid grid-cols-2 gap-3 p-4 bg-card rounded-lg shadow-lg border animate-fade-in">
-                <Dialog>
-                  <DialogTrigger asChild>
-                    <Button 
-                      className="h-24 rounded-xl flex flex-col items-center justify-center gap-2 hover-scale"
-                    >
-                      <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                        <Plus className="h-5 w-5 text-primary" />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-56 p-2">
+              <Dialog>
+                <DialogTrigger asChild>
+                  <DropdownMenuItem className="cursor-pointer py-3">
+                    <div className="flex items-center gap-2">
+                      <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+                        <Plus className="h-4 w-4 text-primary" />
                       </div>
                       <span>New Expense</span>
-                    </Button>
-                  </DialogTrigger>
-                  <NewExpenseModal />
-                </Dialog>
-                
-                <Dialog>
-                  <DialogTrigger asChild>
-                    <Button 
-                      variant="outline" 
-                      className="h-24 rounded-xl flex flex-col items-center justify-center gap-2 hover-scale"
-                    >
-                      <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center">
-                        <Plus className="h-5 w-5" />
+                    </div>
+                  </DropdownMenuItem>
+                </DialogTrigger>
+                <NewExpenseModal />
+              </Dialog>
+              
+              <Dialog>
+                <DialogTrigger asChild>
+                  <DropdownMenuItem className="cursor-pointer py-3">
+                    <div className="flex items-center gap-2">
+                      <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center">
+                        <Plus className="h-4 w-4" />
                       </div>
                       <span>New Group</span>
-                    </Button>
-                  </DialogTrigger>
-                  <NewGroupModal />
-                </Dialog>
-              </div>
-            </DialogContent>
-          </Dialog>
+                    </div>
+                  </DropdownMenuItem>
+                </DialogTrigger>
+                <NewGroupModal />
+              </Dialog>
+            </DropdownMenuContent>
+          </DropdownMenu>
           
           <Button 
             variant="ghost" 
