@@ -5,7 +5,6 @@ import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Link, useLocation } from "react-router-dom";
-import { currentUser } from "@/lib/data";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { 
   DropdownMenu,
@@ -17,6 +16,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import NewExpenseModal from "../modals/NewExpenseModal";
 import NewGroupModal from "../modals/NewGroupModal";
+import { useAuth } from "@/contexts/AuthContext";
 
 const NavLink = ({ to, children }: { to: string; children: React.ReactNode }) => {
   const location = useLocation();
@@ -39,6 +39,7 @@ const NavLink = ({ to, children }: { to: string; children: React.ReactNode }) =>
 
 export default function Navbar() {
   const { toast } = useToast();
+  const { user, signOut } = useAuth();
   
   const handleProfileClick = () => {
     toast({
@@ -127,17 +128,17 @@ export default function Navbar() {
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="rounded-full h-8 w-8 p-0">
                 <Avatar className="h-8 w-8">
-                  <AvatarImage src={currentUser.avatar} alt={currentUser.name} />
-                  <AvatarFallback>{currentUser.name.charAt(0)}</AvatarFallback>
+                  <AvatarImage src={user?.user_metadata?.avatar_url} alt={user?.user_metadata?.name || 'User'} />
+                  <AvatarFallback>{user?.user_metadata?.name?.charAt(0) || 'U'}</AvatarFallback>
                 </Avatar>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-56">
               <DropdownMenuLabel className="font-normal">
                 <div className="flex flex-col space-y-1">
-                  <p className="text-sm font-medium leading-none">{currentUser.name}</p>
+                  <p className="text-sm font-medium leading-none">{user?.user_metadata?.name || user?.email}</p>
                   <p className="text-xs leading-none text-muted-foreground">
-                    {currentUser.email}
+                    {user?.email}
                   </p>
                 </div>
               </DropdownMenuLabel>
@@ -147,8 +148,8 @@ export default function Navbar() {
                 <span>Profile</span>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>
-                <Link to="/" className="flex items-center w-full">Sign out</Link>
+              <DropdownMenuItem onClick={signOut}>
+                <span className="flex items-center w-full">Sign out</span>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

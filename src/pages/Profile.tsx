@@ -1,14 +1,16 @@
 
 import DashboardLayout from "@/components/layout/DashboardLayout";
-import { currentUser } from "@/lib/data";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function Profile() {
+  const { user } = useAuth();
+  
   const handleSave = () => {
     toast.success("Profile saved successfully");
   };
@@ -30,8 +32,8 @@ export default function Profile() {
           <CardContent className="space-y-4">
             <div className="flex flex-col items-center gap-4 sm:flex-row">
               <Avatar className="h-20 w-20">
-                <AvatarImage src={currentUser.avatar} alt={currentUser.name} />
-                <AvatarFallback className="text-xl">{currentUser.name.charAt(0)}</AvatarFallback>
+                <AvatarImage src={user?.user_metadata?.avatar_url} alt={user?.user_metadata?.name || 'User'} />
+                <AvatarFallback className="text-xl">{user?.user_metadata?.name?.charAt(0) || 'U'}</AvatarFallback>
               </Avatar>
               <Button variant="outline">Change Avatar</Button>
             </div>
@@ -39,12 +41,12 @@ export default function Profile() {
             <div className="grid gap-4 pt-4">
               <div className="grid gap-2">
                 <Label htmlFor="name">Full Name</Label>
-                <Input id="name" defaultValue={currentUser.name} />
+                <Input id="name" defaultValue={user?.user_metadata?.name || ''} />
               </div>
               
               <div className="grid gap-2">
                 <Label htmlFor="email">Email</Label>
-                <Input id="email" type="email" defaultValue={currentUser.email} />
+                <Input id="email" type="email" defaultValue={user?.email || ''} readOnly />
               </div>
               
               <div className="grid gap-2">
